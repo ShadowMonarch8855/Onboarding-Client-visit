@@ -20,9 +20,21 @@ import assetRoutes from './routes/asset.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
 import dashboardRoutes from './routes/dashboard.routes.js';
 import healthRoutes from './routes/health.routes.js';
+import User from './models/User.js';
+import { runSeed } from './seed/seed.js';
 
 // Connect to MongoDB
-connectDB();
+connectDB().then(() => {
+  // Auto-seed if database has 0 users
+  User.countDocuments().then(async (count) => {
+    if (count === 0) {
+      console.log('No users found in database. Auto-seeding initial data...');
+      await runSeed();
+    }
+  }).catch((err) => {
+    console.warn('Auto-seed check warning:', err.message);
+  });
+});
 
 const app = express();
 app.set('trust proxy', 1);
@@ -91,6 +103,19 @@ const mountRoutes = (prefix = '') => {
 
 mountRoutes('/api');
 mountRoutes('');
+
+const handleSeed = async (req, res) => {
+  try {
+    const result = await runSeed();
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+app.get('/seed-db', handleSeed);
+app.get('/api/seed-db', handleSeed);
+app.post('/seed-db', handleSeed);
+app.post('/api/seed-db', handleSeed);
 
 // Error Handler
 app.use(errorHandler);

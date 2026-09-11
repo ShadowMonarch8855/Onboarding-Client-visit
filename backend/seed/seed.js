@@ -207,11 +207,16 @@ const seedData = async () => {
     console.log('Notifications created.');
 
     console.log('Seeding completed successfully!');
-    process.exit(0);
+    return { success: true, message: 'Database seeded successfully with users, templates, and projects.' };
   } catch (err) {
     console.error('Seeding error:', err);
-    process.exit(1);
+    throw err;
   }
 };
 
-seedData();
+export { seedData as runSeed };
+
+if (process.argv[1] && process.argv[1].includes('seed.js')) {
+  seedData().then(() => process.exit(0)).catch(() => process.exit(1));
+}
+
