@@ -9,11 +9,19 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+      // If there's no saved token, the user is not logged in yet — don't trigger a 401 network request
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await getMe();
         // response = { success: true, data: { id, name, email, role } }
         setUser(response.data || response);
       } catch (error) {
+        localStorage.removeItem('token');
         setUser(null);
       } finally {
         setLoading(false);
