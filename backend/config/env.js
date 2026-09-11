@@ -4,7 +4,7 @@ dotenv.config();
 export const env = {
   PORT: process.env.PORT || 5000,
   NODE_ENV: process.env.NODE_ENV || 'development',
-  MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/clientflow',
+  MONGODB_URI: process.env.MONGODB_URI || 'mongodb://tube71133_db_user:g5ROusuq9pljXddC@ac-p23ypxv-shard-00-00.uhekirw.mongodb.net:27017,ac-p23ypxv-shard-00-01.uhekirw.mongodb.net:27017,ac-p23ypxv-shard-00-02.uhekirw.mongodb.net:27017/clientflow?ssl=true&replicaSet=atlas-f0cg9w-shard-0&authSource=admin&appName=Cluster0',
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_EXPIRE: process.env.JWT_EXPIRE || '1d',
   CORS_ORIGIN: process.env.CORS_ORIGIN || 'http://localhost:5173',
