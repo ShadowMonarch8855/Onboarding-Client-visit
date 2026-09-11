@@ -1,0 +1,98 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notice {
+  font-size: 13px;
+  color: #4b5563;
+  background-color: #f3f4f6;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 0;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--primary, #4F46E5);
+}
+
+.dateDisplay {
+  padding: 10px 12px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.cancelBtn, .submitBtn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background-color: white;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.submitBtn {
+  background-color: #10b981;
+  border: 1px solid transparent;
+  color: white;
+}
+
+.submitBtn:hover {
+  background-color: #059669;
+}
+
+.successPanel {
+  text-align: center;
+  padding: 32px 16px;
+}
+
+.successIcon {
+  font-size: 48px;
+  color: #10b981;
+  margin-bottom: 16px;
+}
+
+.successPanel h3 {
+  margin: 0 0 8px 0;
+  color: #111827;
+}
+
+.successPanel p {
+  color: #4b5563;
+  margin: 0;
+}

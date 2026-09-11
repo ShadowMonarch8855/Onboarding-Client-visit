@@ -1,0 +1,114 @@
+.uploaderForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dropzone {
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.dropzone:hover {
+  border-color: var(--primary, #4F46E5);
+  background-color: #f3f4f6;
+}
+
+.fileInput {
+  display: none;
+}
+
+.dropLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  cursor: pointer;
+  min-height: 150px;
+}
+
+.uploadPrompt {
+  text-align: center;
+  color: #4b5563;
+}
+
+.uploadIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.fileInfo {
+  text-align: center;
+}
+
+.fileName {
+  display: block;
+  font-weight: 600;
+  color: #111827;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.fileSize {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.formControls {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.formGroup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.formGroup select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.formGroup select:focus {
+  border-color: var(--primary, #4F46E5);
+}
+
+.uploadBtn {
+  padding: 10px 24px;
+  background-color: var(--primary, #4F46E5);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  height: 40px;
+}
+
+.uploadBtn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .formControls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
