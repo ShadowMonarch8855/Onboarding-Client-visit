@@ -67,18 +67,23 @@ app.get('/', (req, res) => {
   });
 });
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/clients', clientRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/invoices', invoiceRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/contracts', contractRoutes);
-app.use('/api/onboarding', onboardingRoutes);
-app.use('/api/assets', assetRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/health', healthRoutes);
+// API Routes (Mounted under /api and root fallback)
+const mountRoutes = (prefix = '') => {
+  app.use(`${prefix}/auth`, authRoutes);
+  app.use(`${prefix}/clients`, clientRoutes);
+  app.use(`${prefix}/projects`, projectRoutes);
+  app.use(`${prefix}/invoices`, invoiceRoutes);
+  app.use(`${prefix}/payments`, paymentRoutes);
+  app.use(`${prefix}/contracts`, contractRoutes);
+  app.use(`${prefix}/onboarding`, onboardingRoutes);
+  app.use(`${prefix}/assets`, assetRoutes);
+  app.use(`${prefix}/notifications`, notificationRoutes);
+  app.use(`${prefix}/dashboard`, dashboardRoutes);
+  app.use(`${prefix}/health`, healthRoutes);
+};
+
+mountRoutes('/api');
+mountRoutes('');
 
 // Error Handler
 app.use(errorHandler);
