@@ -28,6 +28,12 @@ const app = express();
 
 // Middleware
 app.use(helmet());
+
+const configuredOrigin = env.CORS_ORIGIN || 'http://localhost:5173';
+const allowedOrigins = configuredOrigin.includes(',')
+  ? configuredOrigin.split(',').map(o => o.trim())
+  : [configuredOrigin.trim()];
+
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow server-to-server or tools with no origin (like Postman or curl)
