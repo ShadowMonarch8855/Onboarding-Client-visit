@@ -27,35 +27,30 @@ connectDB();
 const app = express();
 
 // Middleware
-const configuredOrigin = env.CORS_ORIGIN || 'http://localhost:5173';
-const allowedOrigins = configuredOrigin.includes(',')
-  ? configuredOrigin.split(',').map(o => o.trim())
-  : [configuredOrigin.trim()];
+// Bulletproof CORS Middleware - Runs First on All Incoming Requests
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-correlation-id');
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow server-to-server or tools with no origin (like Postman or curl)
-    if (!origin) return callback(null, true);
-    
-    const allowed = Array.isArray(allowedOrigins) ? allowedOrigins : [allowedOrigins];
-    if (
-      allowed.includes(origin) ||
-      allowed.includes('*') ||
-      origin.endsWith('.onrender.com') ||
-      origin.includes('localhost')
-    ) {
-      callback(null, true);
-    } else {
-      callback(null, true); // Permissive in cloud deployment to prevent broken requests
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-correlation-id']
-};
+  // Respond immediately with 200 OK to preflight OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
 
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+// Also use standard cors package as backup
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
 // Middleware (with Cross-Origin Resource Policy allowed for SPA)
 app.use(helmet({
