@@ -25,6 +25,7 @@ import healthRoutes from './routes/health.routes.js';
 connectDB();
 
 const app = express();
+app.set('trust proxy', 1);
 
 // Middleware
 // Bulletproof CORS Middleware - Runs First on All Incoming Requests
