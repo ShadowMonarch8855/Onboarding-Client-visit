@@ -27,8 +27,6 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(helmet());
-
 const configuredOrigin = env.CORS_ORIGIN || 'http://localhost:5173';
 const allowedOrigins = configuredOrigin.includes(',')
   ? configuredOrigin.split(',').map(o => o.trim())
@@ -58,6 +56,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
+
+// Middleware (with Cross-Origin Resource Policy allowed for SPA)
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
+}));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(correlationIdMiddleware);
