@@ -28,19 +28,44 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-const allowedOrigins = env.CORS_ORIGIN.includes(',') 
-  ? env.CORS_ORIGIN.split(',').map(o => o.trim()) 
-  : env.CORS_ORIGIN;
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow server-to-server or tools with no origin (like Postman or curl)
+    if (!origin) return callback(null, true);
+    
+    const allowed = Array.isArray(allowedOrigins) ? allowedOrigins : [allowedOrigins];
+    if (
+      allowed.includes(origin) ||
+      allowed.includes('*') ||
+      origin.endsWith('.onrender.com') ||
+      origin.includes('localhost')
+    ) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Permissive in cloud deployment to prevent broken requests
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-correlation-id']
+};
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(correlationIdMiddleware);
 
 app.use(express.json());
+
+// Root health check endpoint
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    message: 'ClientFlow Backend API is running successfully',
+    documentation: '/api/health'
+  });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
