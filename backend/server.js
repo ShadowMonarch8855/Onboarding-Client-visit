@@ -71,6 +71,8 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 // API Routes (Mounted under /api and root fallback)
 const mountRoutes = (prefix = '') => {
   app.use(`${prefix}/auth`, authRoutes);
